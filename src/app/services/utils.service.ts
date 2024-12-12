@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ToastController, LoadingController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ export class UtilsService {
   constructor(
     private toastController: ToastController,
     private loadingController: LoadingController,
-    private router: Router
+    private router: Router,
+    private firestore: AngularFirestore
   ) {}
 
   // Método para mostrar un toast
@@ -50,5 +53,15 @@ export class UtilsService {
   // Método para eliminar de localStorage
   removeFromLocalStorage(key: string) {
     localStorage.removeItem(key);
+  }
+
+  // Método para obtener las calificaciones del usuario
+  getCalificaciones(userId: string): Observable<any[]> {
+    return this.firestore.collection('calificaciones', ref => ref.where('userId', '==', userId)).valueChanges();
+  }
+
+  addCalificacion(calificacionData: any): Promise<void> {
+    const id = this.firestore.createId(); // Generar un ID único para la calificación
+    return this.firestore.collection('calificaciones').doc(id).set(calificacionData);
   }
 }

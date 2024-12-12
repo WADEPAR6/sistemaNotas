@@ -26,12 +26,12 @@ export class LoginPage {
       if (email && password) {
         this.firebaseSvc.signIn({ email, password }).then(async res => {
           this.utilsSvc.saveInLocalStorage('user', res.user);
-          this.utilsSvc.routerLink('/home');
+          this.utilsSvc.routerLink('/calificaciones');
         }).catch(err => {
           this.utilsSvc.presentToast({
             message: err.message,
             color: 'danger',
-            position: 'top',
+            position: 'top',  
             duration: 3000,
             icon: 'alert-circle-outline'
           });

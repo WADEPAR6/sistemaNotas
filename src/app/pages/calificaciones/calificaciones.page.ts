@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AcademicaService } from '../../services/academica.service';
+import { UtilsService } from '../../services/utils.service';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-calificaciones',
@@ -7,26 +8,36 @@ import { AcademicaService } from '../../services/academica.service';
   styleUrls: ['./calificaciones.page.scss'],
 })
 export class CalificacionesPage implements OnInit {
-  // Datos estáticos de ejemplo, con el nuevo campo 'estado'
-  materias = [
-    { nombre: 'Matemáticas', estudiante: 'Juan Pérez', nota: 8.5, estado: 'Activo' },
-    { nombre: 'Historia', estudiante: 'Ana Gómez', nota: 9.2, estado: 'Activo' },
-    { nombre: 'Ciencias', estudiante: 'Carlos López', nota: 7.8, estado: 'Inactivo' },
-    { nombre: 'Inglés', estudiante: 'María Torres', nota: 9.5, estado: 'Activo' },
-    { nombre: 'Inglés', estudiante: 'María Torres', nota: 9.5, estado: 'Activo' }
-  ]; 
+  materias: any[] = []; 
+  userId: string | null = null; // Inicializamos como null
 
-  constructor(private academicaService: AcademicaService) {}
+  constructor(private utilsService: UtilsService) {}
 
   ngOnInit() {
-    // Llamada al servicio para obtener las calificaciones desde Firebase
-    this.academicaService.getCalificaciones().subscribe({
-      next: (data) => {
-        this.materias = data || [];  // Asignamos los datos obtenidos a la propiedad
-      },
-      error: (err) => {
-        console.error('Error al cargar las calificaciones', err);
+    // Obtener el UID del usuario actual
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.userId = user.uid; // Asignamos el UID del usuario
+        this.loadCalificaciones(); // Cargamos las calificaciones
+      } else {
+        console.log('No hay usuario autenticado.');
       }
     });
+  }
+
+  loadCalificaciones() {
+    if (this.userId) {
+      // Llamada al servicio para obtener las calificaciones desde Firebase
+      this.utilsService.getCalificaciones(this.userId).subscribe({
+        next: (data) => {
+          this.materias = data || [];  // Asignamos los datos obtenidos a la propiedad
+          console.log('Calificaciones obtenidas:', this.materias); // Imprimimos las calificaciones en la consola
+        },
+        error: (err) => {
+          console.error('Error al cargar las calificaciones', err);
+        }
+      });
+    }
   }
 }

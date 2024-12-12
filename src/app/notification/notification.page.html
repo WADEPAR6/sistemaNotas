@@ -8,21 +8,22 @@
 </ion-header>
 
 <ion-content>
-  <!-- Refresher para deslizar -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Desliza para ver una notificación"
-      refreshingSpinner="circles" refreshingText="Enviando notificación...">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar notificaciones" refreshingSpinner="circles" refreshingText="Actualizando...">
     </ion-refresher-content>
   </ion-refresher>
 
-  <!-- Contenido informativo -->
-  <ion-card class="ion-margin">
-    <ion-card-header>
-      <ion-card-title>Prueba de Notificaciones</ion-card-title>
-      <ion-card-subtitle>Desliza hacia abajo ⬇️</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Se mostrará una notificación cuando deslices hacia abajo</p>
-    </ion-card-content>
-  </ion-card>
+  <ion-list>
+    <ion-item *ngFor="let notification of notifications">
+      <ion-card class="notification-card">
+        <ion-card-header>
+          <ion-card-title>{{ notification.title }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p [innerHTML]="notification.body.replace('\n', '<br>')"></p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
 </ion-content>

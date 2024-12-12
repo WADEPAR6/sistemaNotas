@@ -1,12 +1,7 @@
 /*
- * App Global CSS
+ * App Global SCSS
  * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * Global styles for the app with a red and white theme.
  */
 
 /* Core CSS required for Ionic components to work properly */
@@ -18,20 +13,139 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* Optional CSS utils */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* Custom Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fef5f5;
+  color: #b71c1c;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+ion-header {
+  --background: #b71c1c;
+  --color: #ffffff;
+}
+
+ion-toolbar {
+  --background: #b71c1c;
+  --color: #ffffff;
+}
+
+ion-button {
+  --background: #d32f2f;
+  --background-focused: #c62828;
+  --background-hover: #b71c1c;
+  --color: #ffffff;
+  text-transform: none;
+}
+
+ion-content {
+  --background: #fef5f5;
+}
+
+.safe-p-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.d-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-input {
+  --border-color: #e57373;
+  --border-radius: 15px;
+  --border-style: solid;
+  --border-width: 1px;
+  margin: 20px 0;
+
+  ion-label {
+    color: #b71c1c;
+  }
+
+  ion-input {
+    color: #b71c1c;
+  }
+}
+
+.validators {
+  color: var(--ion-color-danger);
+  font-size: 13px;
+  text-align: center;
+}
+
+.auth-form {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px;
+  opacity: 0.3;
+
+  ion-icon {
+    font-size: 100px;
+    color: #b71c1c;
+  }
+}
+
+.product-item {
+  --padding-top: 20px;
+
+  ion-avatar {
+    width: 70px;
+    height: 80px;
+    --border-radius: 15px;
+  }
+
+  .name {
+    font-weight: 600;
+    padding-bottom: 5px;
+    color: #b71c1c;
+  }
+
+  .data {
+    font-size: 13px;
+
+    strong {
+      font-weight: 500;
+      color: #d32f2f;
+    }
+  }
+
+  .option-btn {
+    font-size: 27px;
+  }
+
+  ion-chip {
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: 0;
+    background-color: #ffcdd2;
+    color: #b71c1c;
+  }
+}
+
+@media (min-width: 769px) {
+  .auth-form {
+    width: 500px;
+  }
+
+  .add-update-modal {
+    --height: 680px;
+  }
+}

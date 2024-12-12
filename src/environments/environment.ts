@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyBui48JqaxD7h-OyMuJl4jt2bTPCfsbJ6o',
-    authDomain: 'appparedes-767a3.firebaseapp.com',
-    projectId: 'appparedes-767a3',
-    storageBucket: 'appparedes-767a3.firebasestorage.app',
-    messagingSenderId: '505537997477',
-    appId: '1:505537997477:web:eedc2bc999953fba65fb4c',
-  },
+};
+const firebaseConfig = {
+  apiKey: 'AIzaSyBui48JqaxD7h-OyMuJl4jt2bTPCfsbJ6o',
+  authDomain: 'appparedes-767a3.firebaseapp.com',
+  projectId: 'appparedes-767a3',
+  storageBucket: 'appparedes-767a3.firebasestorage.app',
+  messagingSenderId: '505537997477',
+  appId: '1:505537997477:web:eedc2bc999953fba65fb4c',
 };
 /*
  * For easier debugging in development mode, you can import the following file

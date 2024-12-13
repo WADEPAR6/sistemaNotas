@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilsService } from './utils.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -58,19 +58,19 @@ export class NotificationService {
   }
   //Notificacion de cada usuario//
   getUserNotifications(): Observable<any[]> {
-    const user = this.utilsService.getFromLocalStorage('user');
-    if (!user) {
-      return new Observable<any[]>((subscriber) => subscriber.next([]));
+    const user = this.utilsService.getFromLocalStorage('user'); // Obtén el usuario logueado
+    if (!user || !user.uid) {
+      return new Observable<any[]>((subscriber) => subscriber.next([])); // Devuelve un observable vacío si no hay usuario
     }
 
-    return this.firestore
-      .collection('notifications', (ref) =>
-        ref
-          .where('userId', '==', user.uid)
-          .orderBy('createdAt', 'desc')
-          .limit(10)
-      )
-      .valueChanges();
+    return this.firestore.collection('notificaciones', ref => ref.where('userId', '==', user.uid))
+      .snapshotChanges().pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as object;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
   }
 
   async addNotification(data: any) {
@@ -78,12 +78,22 @@ export class NotificationService {
     if (!user) return;
 
     try {
-      await this.firestore.collection('notifications').add({
+      console.log('Agregando notificación a firestore:', data);
+      await this.firestore.collection('notificaciones').add({
         ...data,
         userId: user.uid,
         createdAt: new Date(),
         read: false,
       });
+
+      // Muestra la notificación en el navegador
+      if (Notification.permission === 'granted') {
+        new Notification(data.title, {
+          body: data.body,
+          icon: 'assets/icon/favicon.png',
+          badge: 'assets/icon/favicon.png',
+        });
+      }
     } catch (error) {
       console.error('Error al agregar notificación:', error);
     }

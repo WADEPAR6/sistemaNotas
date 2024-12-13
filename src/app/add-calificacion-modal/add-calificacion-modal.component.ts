@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { getAuth } from 'firebase/auth';
 import { FirebaseService } from '../services/firebase.service';
+import { NotificationService } from '../services/notification.service'; // Importa el servicio de notificaciones
+
 
 @Component({
   selector: 'app-add-calificacion-modal',
@@ -17,15 +19,15 @@ export class AddCalificacionModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private notificationService: NotificationService
   ) {
     const auth = getAuth();
     const user = auth.currentUser ;
-    this.userId = user ? user.uid : null; // Obtener el UID del usuario
+    this.userId = user ? user.uid : null;
   }
 
   ngOnInit() {
-    // Si hay una calificación, inicializa los campos
     if (this.calificacion) {
       this.nombre = this.calificacion.nombre;
       this.estado = this.calificacion.estado;
@@ -44,13 +46,16 @@ export class AddCalificacionModalComponent implements OnInit {
 
       try {
         if (this.calificacion) {
-          // Si hay una calificación, actualiza
           await this.firebaseService.updateCalificacion(this.calificacion.id, calificacionData);
         } else {
-          // Si no hay calificación, crea una nueva
           await this.firebaseService.addCalificacion(calificacionData);
+          await this.notificationService.addNotification({
+            title: 'Nueva Calificación',
+            body: `Se ha añadido una nueva calificación: ${this.nombre} - ${this.nota}`,
+            userId: this.userId,
+          });
         }
-        this.modalController.dismiss(); // Cierra el modal
+        this.modalController.dismiss();
       } catch (error) {
         console.error('Error al añadir o actualizar la calificación', error);
       }

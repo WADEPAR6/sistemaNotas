@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./notification.page.scss'],
 })
 export class NotificationPage {
-  userNotifications$: Observable<any[]> = new Observable<any[]>();
+  userNotifications$!: Observable<any[]>;
+
   staticNotifications = [
     {
       title: '📚 Recordatorio de Examen',
@@ -31,9 +32,7 @@ export class NotificationPage {
   constructor(
     private readonly notificationService: NotificationService,
     private readonly toastController: ToastController
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.loadUserNotifications();
   }
 
@@ -43,33 +42,21 @@ export class NotificationPage {
 
   async doRefresh(event: RefresherCustomEvent) {
     try {
-      //Notificaciones estaticas//
+      // Notificaciones estáticas
       await this.notificationService.showTaskNotification();
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await this.notificationService.showExamNotification();
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await this.notificationService.showEventNotification();
 
-      //Notificaciones de cada usuario//
-      this.loadUserNotifications();
-
       const toast = await this.toastController.create({
         message: 'Notificaciones enviadas!',
         duration: 2000,
         position: 'top',
-        color: 'success',
       });
-
       await toast.present();
     } catch (error) {
-      console.error('Error:', error);
-      const toast = await this.toastController.create({
-        message: 'Error al enviar notificaciones',
-        duration: 2000,
-        position: 'top',
-        color: 'danger',
-      });
-      await toast.present();
+      console.error('Error al enviar notificaciones:', error);
     } finally {
       event.target.complete();
     }

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NotificationService } from '../services/notification.service';
-import { ToastController } from '@ionic/angular';
-import { RefresherCustomEvent } from '@ionic/angular';
+import { ToastController, RefresherCustomEvent } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -30,8 +29,8 @@ export class NotificationPage {
   ];
 
   constructor(
-    private notificationService: NotificationService,
-    private toastController: ToastController
+    private readonly notificationService: NotificationService,
+    private readonly toastController: ToastController
   ) {}
 
   ngOnInit() {

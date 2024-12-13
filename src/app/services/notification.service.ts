@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import { LocalNotifications } from '@capacitor/local-notifications';
-import { Router } from '@angular/router';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
   constructor(
-    private firestore: AngularFirestore,
-    private utilsService: UtilsService
+    private readonly firestore: AngularFirestore,
+    private readonly utilsService: UtilsService
   ) {
     this.requestPermission();
   }

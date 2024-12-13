@@ -25,6 +25,7 @@ export class LoginPage {
       const { email, password } = this.form.value;
       if (email && password) {
         this.firebaseSvc.signIn({ email, password }).then(async res => {
+          console.log('Usuario autenticado:', res.user);
           this.utilsSvc.saveInLocalStorage('user', res.user);
           this.utilsSvc.routerLink('/calificaciones');
         }).catch(err => {

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CalificacionesPageRoutingModule } from './calificaciones-routing.module';
 
 import { CalificacionesPage } from './calificaciones.page';
+import { AddCalificacionModalModule } from 'src/app/add-calificacion-modal/add-calificacion-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CalificacionesPageRoutingModule
+    CalificacionesPageRoutingModule,
+    AddCalificacionModalModule
   ],
   declarations: [CalificacionesPage]
 })

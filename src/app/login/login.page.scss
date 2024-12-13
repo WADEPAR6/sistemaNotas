@@ -5,6 +5,25 @@ ion-content {
   height: 100vh;
   background: linear-gradient(to bottom, #3b82f6, #1e3a8a);
   color: #ffffff;
+  text-align: center; // Center all content inside ion-content
+  img {
+    max-width: 90%;
+    max-height: 40vh;
+    margin: 0px 40px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
 }
 
 form {
@@ -12,6 +31,7 @@ form {
   max-width: 400px;
   background: #ffffff;
   padding: 20px;
+  margin: 0 auto; // Center the form horizontally
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 

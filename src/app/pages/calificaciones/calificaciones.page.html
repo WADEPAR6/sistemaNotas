@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="title-style">CALIFICACIONES ESTUDIANTES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button
+    expand="full"
+    color="primary"
+    (click)="openAddCalificacionModal()"
+  >
+    Añadir Calificación
+  </ion-button>
+
+  <ion-card class="card-style">
+    <ion-card-header>
+      <ion-card-title class="card-title">Detalles de las Calificaciones</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="header-row">
+          <ion-col size="3" class="column-header"><strong>MATERIA</strong></ion-col>
+          <ion-col size="3" class="column-header"><strong>CALIFICACIÓN</strong></ion-col>
+          <ion-col size="3" class="column-header"><strong>ESTADO MATRICULA</strong></ion-col>
+          <ion-col size="3" class="column-header"><strong>ACCIONES</strong></ion-col> <!-- Nueva columna -->
+        </ion-row>
+
+        <ion-row *ngFor="let materia of materias" class="row-data">
+          <ion-col size="3" class="data-col">{{ materia.nombre }}</ion-col>
+          <ion-col size="3" class="data-col">{{ materia.nota | number:'1.1-1' }}</ion-col>
+          <ion-col size="3" class="data-col">
+            <ion-icon *ngIf="materia.estado === 'Activo' || materia.estado === 'activo'" name="checkmark-circle" color="success"></ion-icon>
+            <ion-icon *ngIf="materia.estado === 'Inactivo' || materia.estado === 'inactivo'" name="close-circle" color="danger"></ion-icon>
+            {{ materia.estado }}
+          </ion-col>
+          <ion-col size="3" class="data-col">
+            <ion-button color="danger" (click)="deleteCalificacion(materia.id)">
+              Eliminar
+            </ion-button>
+            <ion-button color="primary" (click)="editCalificacion(materia)">
+              Editar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

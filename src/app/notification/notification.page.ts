@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../services/notification.service';
 import { ToastController } from '@ionic/angular';
 import { RefresherCustomEvent } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
@@ -9,7 +10,8 @@ import { RefresherCustomEvent } from '@ionic/angular';
   styleUrls: ['./notification.page.scss'],
 })
 export class NotificationPage {
-  notifications = [
+  userNotifications$: Observable<any[]> = new Observable<any[]>();
+  staticNotifications = [
     {
       title: '📚 Recordatorio de Examen',
       body: 'Tienes un examen de Matemáticas mañana a las 10:00 AM\nNo olvides llevar calculadora!',
@@ -32,13 +34,25 @@ export class NotificationPage {
     private toastController: ToastController
   ) {}
 
+  ngOnInit() {
+    this.loadUserNotifications();
+  }
+
+  loadUserNotifications() {
+    this.userNotifications$ = this.notificationService.getUserNotifications();
+  }
+
   async doRefresh(event: RefresherCustomEvent) {
     try {
+      //Notificaciones estaticas//
       await this.notificationService.showTaskNotification();
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await this.notificationService.showExamNotification();
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await this.notificationService.showEventNotification();
+
+      //Notificaciones de cada usuario//
+      this.loadUserNotifications();
 
       const toast = await this.toastController.create({
         message: 'Notificaciones enviadas!',

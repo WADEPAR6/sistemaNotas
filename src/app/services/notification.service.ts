@@ -2,12 +2,19 @@ import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Router } from '@angular/router';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { UtilsService } from './utils.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor() {
+  constructor(
+    private firestore: AngularFirestore,
+    private utilsService: UtilsService
+  ) {
     this.requestPermission();
   }
 
@@ -51,6 +58,38 @@ export class NotificationService {
         badge: 'assets/icon/favicon.png',
         tag: 'event',
       });
+    }
+  }
+  //Notificacion de cada usuario//
+  getUserNotifications(): Observable<any[]> {
+    const user = this.utilsService.getFromLocalStorage('user');
+    if (!user) {
+      return new Observable<any[]>((subscriber) => subscriber.next([]));
+    }
+
+    return this.firestore
+      .collection('notifications', (ref) =>
+        ref
+          .where('userId', '==', user.uid)
+          .orderBy('createdAt', 'desc')
+          .limit(10)
+      )
+      .valueChanges();
+  }
+
+  async addNotification(data: any) {
+    const user = this.utilsService.getFromLocalStorage('user');
+    if (!user) return;
+
+    try {
+      await this.firestore.collection('notifications').add({
+        ...data,
+        userId: user.uid,
+        createdAt: new Date(),
+        read: false,
+      });
+    } catch (error) {
+      console.error('Error al agregar notificación:', error);
     }
   }
 }

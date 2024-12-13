@@ -1,17 +1,31 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TaskPage } from './pages/tasks/tasks.page';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
+  { path: 'home', loadChildren: () => import('./pages/calificaciones/calificaciones.module').then(m => m.CalificacionesPageModule) },
+  { path: 'calificaciones', loadChildren: () => import('./pages/calificaciones/calificaciones.module').then(m => m.CalificacionesPageModule) },
   {
-    path: 'task/:id',  // Asegúrate de que la ruta tenga el parámetro 'id'
+    path: 'task/:id',
     component: TaskPage
-  }
+  },
+  {
+    path: 'notification',
+    loadChildren: () =>
+      import('./notification/notification.module').then(
+        (m) => m.NotificationPageModule
+      ),
+  },
 ];
 
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes),
+  RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

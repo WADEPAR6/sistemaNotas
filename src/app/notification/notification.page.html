@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar notificaciones" refreshingSpinner="circles" refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <!-- Notificaciones del usuario -->
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Notificaciones Personalizadas</ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let notification of userNotifications$ | async">
+        <ion-card class="notification-card">
+          <ion-card-header>
+            <ion-card-title>{{ notification.title }}</ion-card-title>
+            <ion-card-subtitle>{{ notification.createdAt.toDate() | date:'short' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p [innerHTML]="notification.body.replace('\n', '<br>')"></p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-group>
+
+    <!-- Notificaciones estáticas -->
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Notificaciones Generales</ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let notification of staticNotifications">
+        <ion-card class="notification-card">
+          <ion-card-header>
+            <ion-card-title>{{ notification.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p [innerHTML]="notification.body.replace('\n', '<br>')"></p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

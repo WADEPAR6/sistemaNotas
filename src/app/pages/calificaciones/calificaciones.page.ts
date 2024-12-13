@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UtilsService } from '../../services/utils.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { AddCalificacionModalComponent } from '../../add-calificacion-modal/add-calificacion-modal.component';
@@ -17,7 +18,8 @@ export class CalificacionesPage implements OnInit {
 
   constructor(
     private utilsService: UtilsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -77,5 +79,7 @@ export class CalificacionesPage implements OnInit {
     return await modal.present();
   }
 
-
+  navigateToNotifications() {
+    this.router.navigate(['/notification']); // Método para navegar a la ruta de notificaciones
+  }
 }

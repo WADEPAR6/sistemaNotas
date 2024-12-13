@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { NotificationService } from './services/notification.service';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
   declarations: [AppComponent, TaskPage],
@@ -20,7 +21,8 @@ import { NotificationService } from './services/notification.service';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    IonicModule.forRoot(),  // Añade IonicModule en el array de imports
+    AngularFireStorageModule,
+    IonicModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: TaskPage }
     ])

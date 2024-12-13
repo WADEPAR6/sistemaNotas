@@ -8,6 +8,8 @@ import { CalificacionesPageRoutingModule } from './calificaciones-routing.module
 
 import { CalificacionesPage } from './calificaciones.page';
 import { AddCalificacionModalModule } from 'src/app/add-calificacion-modal/add-calificacion-modal.module';
+import { AddCalificacionModalComponent } from 'src/app/add-calificacion-modal/add-calificacion-modal.component';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
   imports: [
@@ -15,8 +17,10 @@ import { AddCalificacionModalModule } from 'src/app/add-calificacion-modal/add-c
     FormsModule,
     IonicModule,
     CalificacionesPageRoutingModule,
-    AddCalificacionModalModule
+    AddCalificacionModalModule,
+    AngularFireStorageModule
   ],
-  declarations: [CalificacionesPage]
+  declarations: [CalificacionesPage],
+  exports: [AddCalificacionModalComponent]
 })
 export class CalificacionesPageModule {}

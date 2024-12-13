@@ -59,6 +59,22 @@ export class CalificacionesPage implements OnInit {
     }
   }
 
+  // Método para simular la descarga de un documento
+  downloadDocument(nombreMateria: string) {
+    const fileName = `${nombreMateria}.txt`;
+    const fileContent = 'Esta es tu tarea'; // Contenido del archivo
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+  
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url); // Libera el objeto URL
+  }
+
   // Método para eliminar una calificación
   async deleteCalificacion(idmateria: string) {
     try {

@@ -8,10 +8,10 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
   { path: 'home', loadChildren: () => import('./pages/calificaciones/calificaciones.module').then(m => m.CalificacionesPageModule) },
   { path: 'calificaciones', loadChildren: () => import('./pages/calificaciones/calificaciones.module').then(m => m.CalificacionesPageModule) },
-  {
-    path: 'task/:id',
-    component: TaskPage
-  },
+  // {
+  //   path: 'task/:id',
+  //   component: TaskPage
+  // },
   {
     path: 'notification',
     loadChildren: () =>

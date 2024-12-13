@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { getAuth } from 'firebase/auth';
 import { FirebaseService } from '../services/firebase.service';
-import { NotificationService } from '../services/notification.service'; // Importa el servicio de notificaciones
-
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-add-calificacion-modal',
@@ -16,6 +15,7 @@ export class AddCalificacionModalComponent implements OnInit {
   estado: string = '';
   nota: number | null = null;
   userId: string | null = null;
+  selectedFileName: string | null = null;
 
   constructor(
     private modalController: ModalController,
@@ -61,6 +61,15 @@ export class AddCalificacionModalComponent implements OnInit {
       }
     } else {
       console.error('Por favor, completa todos los campos.');
+    }
+  }
+
+  // Método para manejar la selección de archivos
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFileName = file.name; // Almacena solo el nombre del archivo seleccionado
+      console.log('Archivo seleccionado:', this.selectedFileName);
     }
   }
 

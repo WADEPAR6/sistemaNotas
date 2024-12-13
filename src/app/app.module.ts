@@ -1,22 +1,31 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
+import { TaskPage } from './pages/tasks/tasks.page';
+import { RouterModule } from '@angular/router';
+import { RouteReuseStrategy } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { NotificationService } from './services/notification.service';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TaskPage],
   imports: [
+    BrowserModule,
     BrowserModule,
     IonicModule.forRoot({ mode: 'md' }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireStorageModule,
+    IonicModule.forRoot(),
+    RouterModule.forRoot([
+      { path: '', component: TaskPage }
+    ])
   ],
   providers: [
     {
@@ -27,5 +36,6 @@ import { NotificationService } from './services/notification.service';
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
-export class AppModule {}
+export class AppModule { }

@@ -15,7 +15,7 @@
     color="primary"
     (click)="openAddCalificacionModal()"
   >
-    Añadir Calificación
+    Añadir Asignacion de materia
   </ion-button>
 
   <ion-card class="card-style">
@@ -29,7 +29,8 @@
           <ion-col size="3" class="column-header"><strong>MATERIA</strong></ion-col>
           <ion-col size="3" class="column-header"><strong>CALIFICACIÓN</strong></ion-col>
           <ion-col size="3" class="column-header"><strong>ESTADO MATRICULA</strong></ion-col>
-          <ion-col size="3" class="column-header"><strong>ACCIONES</strong></ion-col> <!-- Nueva columna -->
+          <ion-col size="3" class="column-header"><strong>ACCIONES</strong></ion-col>
+          <ion-col size="3" class="column-header"><strong>DESCARGAR DOCUMENTO</strong></ion-col> <!-- Nueva columna -->
         </ion-row>
 
         <ion-row *ngFor="let materia of materias" class="row-data">
@@ -47,6 +48,9 @@
             <ion-button color="primary" (click)="editCalificacion(materia)">
               Editar
             </ion-button>
+            <ion-button color="warning" (click)="downloadDocument(materia.nombre)">
+              Descargar
+            </ion-button> <!-- Botón de descarga -->
           </ion-col>
         </ion-row>
       </ion-grid>
